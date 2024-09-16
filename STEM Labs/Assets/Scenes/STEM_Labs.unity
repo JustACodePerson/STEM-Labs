@@ -315,8 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20d3d387576637458dc6be95a49c208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camMoveSpd: 0
-  camRotSpd: 0
+  camMoveSpd: 35
+  camRotSpd: 1
   scrollBounds: 0
 --- !u!1 &647966190
 GameObject:
