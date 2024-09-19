@@ -315,9 +315,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20d3d387576637458dc6be95a49c208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camMoveSpd: 0
-  camRotSpd: 0
-  scrollBounds: 0
+  vCam: {fileID: 647966191}
+  currentCam: 6
+  camMoveSpd: 25
+  camRotSpd: 0.3
+  scrollBounds: 5
+  camFollowOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &647966190
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,7 +385,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647966190}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000008260126, y: -0.0000001804807, z: 0.00000017531248, w: 1}
+  m_LocalRotation: {x: -0.000000077877225, y: -0.00000011332305, z: 0.000000113323054, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -417,7 +420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190238420}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826835, y: 0.00000009302259, z: -0.000000038531226, w: 0.92387956}
+  m_LocalRotation: {x: 0.3826835, y: 6.8737377e-10, z: -2.847196e-10, w: 0.9238795}
   m_LocalPosition: {x: 0, y: 10, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
