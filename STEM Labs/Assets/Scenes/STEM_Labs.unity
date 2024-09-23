@@ -320,7 +320,6 @@ MonoBehaviour:
   camMoveSpd: 25
   camRotSpd: 0.3
   scrollBounds: 5
-  camFollowOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &647966190
 GameObject:
   m_ObjectHideFlags: 0
