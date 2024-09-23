@@ -319,7 +319,8 @@ MonoBehaviour:
   currentCam: 6
   camMoveSpd: 25
   camRotSpd: 0.3
-  scrollBounds: 5
+  scrollBounds: 10
+  edgeScrollSpd: 0.5
 --- !u!1 &647966190
 GameObject:
   m_ObjectHideFlags: 0
