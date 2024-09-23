@@ -318,9 +318,8 @@ MonoBehaviour:
   vCam: {fileID: 647966191}
   currentCam: 6
   camMoveSpd: 25
-  camRotSpd: 0.3
+  camRotSpd: 0.5
   scrollBounds: 5
-  camFollowOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &647966190
 GameObject:
   m_ObjectHideFlags: 0

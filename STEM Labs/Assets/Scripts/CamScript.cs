@@ -65,10 +65,4 @@ public class CamScript : MonoBehaviour
         }
         */
     }
-
-    void Update(){
-        if(movementMode == MovementMode.KeyCam){
-            Mode_KeyCam();
-        }
-    }
 }
