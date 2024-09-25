@@ -15,22 +15,22 @@ public class CamScript : MonoBehaviour
     public CamView currentCam = (CamView)0;
     
     [Header("Manipulable Stats")]
-    [SerializeField] private float camMoveSpd; //Camera Movement Speed
-    [SerializeField] private float camRotSpd; //Camera Turning (Rotation) Speed
-    [SerializeField] private float scrollBounds; //Pixel Bounds for Edge Scrolling
-    [SerializeField] private float edgeScrollSpd; //Pixel Bounds for Edge Scrolling
-    
-    private Vector3 camFollowOffset; //Access Cam Offset from Focal Point
+    [SerializeField] private float camMoveSpd 25; //Camera Movement Speed
+    [SerializeField] private float camRotSpd = .3; //Camera Turning (Rotation) Speed
+    [SerializeField] private float scrollBounds = 15; //Pixel Bounds for Edge Scrolling
+    [SerializeField] private float edgeScrollSpd = .5; //Pixel Bounds for Edge Scrolling
+    [SerializeField] private float zoomCurrent = 60; //Current Zoom Value, Default at 60
+    [SerializeField] private float zoomMin = 80; //Zoom Out Max
+    [SerializeField] private float zoomMax = 20; //Zoom In Max
 
     void Start(){
-        //camFollowOffset = vCam.m_Transposer.y;
     }
 
     void camRoam(){
         //KEY-BASED MOVEMENT
         Vector3 camDir = new Vector3(); //Camera Position Movement Vector
-        camDir += Input.GetAxis("Horizontal") * transform.right; //WS Movement
-        camDir += Input.GetAxis("Vertical") * transform.forward; //AD Movement
+        camDir += Input.GetAxis("HorMove") * transform.right; //WS Movement
+        camDir += Input.GetAxis("VerMove") * transform.forward; //AD Movement
 
         //EDGE SCROLLING
         Vector3 mPos = new Vector3(); mPos = Input.mousePosition; //Mouse Position Tracker
@@ -39,18 +39,23 @@ public class CamScript : MonoBehaviour
         if(mPos.y < scrollBounds) camDir -= edgeScrollSpd * transform.forward; //Bottom Bound Movement
         if(mPos.y > Screen.height - scrollBounds) camDir += edgeScrollSpd * transform.forward; //Top Bound Movement
 
+        //CAM MOVEMENT CHANGES
         transform.position += camDir * camMoveSpd * Time.deltaTime; //Position Movement (WASD)
         transform.eulerAngles += new Vector3(0, Input.GetAxis("Turn") * camRotSpd, 0); //Turn Movement (QE)
         // VCam Body => X/Y Damping (Pos. Drag Delay), VCam Aim => Hor./Ver. Damping (Turn Drag Delay)
 
-        if(Input.GetKeyDown(KeyCode.R)){
-            //camFollowOffset.y *= -1; //NEED TO FIX, REVERSE Y-VALUE OF TRANSPOSER BODY OF VCAM
-            Debug.Log("Hey");
-        }
+        //CAM FLIPPING
+        if(Input.GetKeyDown(KeyCode.R))
+            vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y *= -1; //Flip Cam View (Under/Over)
+
+        //CAM ZOOM
+        if(Input.GetAxis("ScrollWheel") > 0) zoomCurrent += .5; //Zoom Out
+        else if(Input.GetAxis("ScrollWheel") < 0) zoomCurrent -= .5; //Zoom In
+        Mathf.Clamp(zoomCurrent, zoomMin, zoomMax); //Keep Zoom In Range
+        vCam.m_Lens.FieldOfView = zoomCurrent; //Update 
     }
 
     void camFixed(){
-        //
     }
 
     void Update(){
