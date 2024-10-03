@@ -2,14 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class CamScript : MonoBehaviour
 {
     [Header("Reference Access")]
     [SerializeField] private CinemachineVirtualCamera vCam; //Access Cinemachine Cam
-    
+    //DO NESTED DICTIONARY!!!!
+    /*Dictionary<string, Vector3, Vector3, Vector3> camView = new Dictionary<string, Vector3, Vector3, Vector3>(){ //Cam Type, Default Offset, WS Movement, AD Movement
+        {"Roam", new Vector3(), transform.right, transform.forward},
+        {"Top", new Vector3(), transform.right, transform.forward},
+        {"Bottom", new Vector3(), transform.right, transform.forward},
+        {"Back", new Vector3(), transform.right, transform.forward},
+        {"Front", new Vector3(), transform.right, transform.forward},
+        {"Left", new Vector3(), transform.right, transform.forward},
+        {"Right", new Vector3(), transform.right, transform.forward},
+    };*/
     public enum CamView{ //Cam Viewing Mode
-        Roam,Top,Bottom,Back,Front,Left,Right  //Mode Options
+        //Mode Options
+        Roam,
+        Top,
+        Bottom,
+        Back,
+        Front,
+        Left,
+        Right  
     }
 
     [Header("Camera Mode")]
@@ -35,6 +52,10 @@ public class CamScript : MonoBehaviour
         camRotSpd = Mathf.Clamp(camRotSpd, 0, 100); //Bounds Turn Speed from 0 to 1
         edgeScrollSpd = Mathf.Clamp(edgeScrollSpd, 0, 100); //Bounds Edge Scroll Speed from 0 to 1
         zoomSpd = Mathf.Clamp(zoomSpd, 0, 100); //Bounds Zoom Speed from 0 to 1 
+
+        //DEFAULT SETTING
+        currentCam = 0;
+        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,-10); //Set Cam Offset
     }
     void keyMoveScroll(Vector3 ws,Vector3 ad){ //KEY MOVEMENT AND EDGE SCROLLING (HORIZONTAL DIR, VERTICAL DIR)        
         //KEY-BASED MOVEMENT
@@ -61,15 +82,10 @@ public class CamScript : MonoBehaviour
         vCam.m_Lens.FieldOfView = zoomCurrent; //Update 
     }
     void camRoam(){ //ROAMING CAMERA
-        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.z = -10; //Set Cam Offset
-
         if(vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y>0) //IF Cam is Upright
             keyMoveScroll(transform.right,transform.forward); //Key Movement
         else //IF Cam is Flipped
             keyMoveScroll(transform.right,-transform.forward); //INverted Vert Key Movement
-        
-        mouseZoom(); //Zoom
-        
         //CAM TURNING CHANGES
         transform.eulerAngles += new Vector3(0, Input.GetAxis("Turn") * (.2f + camRotSpd / 100 * .3f), 0); //Turn Movement (QE)
 
@@ -78,14 +94,13 @@ public class CamScript : MonoBehaviour
             vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y *= -1; //Flip Cam View (Under/Over)
         
     }
-    void camFixed(){ //SIDE CAMERA
-        mouseZoom();
+    void camFixed(){ //SIDE CAMERAS
         if(currentCam == (CamView)1){ //Top View
-        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,0); //Set Cam Offset
+            vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,0); //Set Cam Offset
             keyMoveScroll(transform.right,transform.forward);
         } 
         else if (currentCam == (CamView)2){ //Bottom View
-        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,-10,0); //Set Cam Offset
+            vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,-10,0); //Set Cam Offset
             keyMoveScroll(transform.right,-transform.forward);
         }
         else if (currentCam == (CamView)3){ //Back View
@@ -110,9 +125,23 @@ public class CamScript : MonoBehaviour
         //transform.position.y = Mathf.Clamp(transform.position.y,-10,10);
         //transform.position.z = Mathf.Clamp(transform.position.z,-50,50);
     }
-    void Update(){ //UPDATE W/ FRAMES
-        if(currentCam == (CamView)0) camRoam();
+
+    void Update(){ //UPDATE EVERY FRAME
+        if( Input.GetKeyDown(KeyCode.M) ) {
+            if( (int)currentCam < 6){
+                currentCam ++;
+            } 
+            else{ 
+                vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,-10); //Set Cam Offset
+                currentCam = 0;
+            }
+            transform.position = new Vector3(); 
+        }
+
+        if( currentCam == (CamView)0 ){
+            camRoam();
+        } 
         else camFixed();
-        camBounds();
+        mouseZoom();
     }
 }
