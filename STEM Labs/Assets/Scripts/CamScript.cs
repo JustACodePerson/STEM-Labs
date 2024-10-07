@@ -8,16 +8,7 @@ public class CamScript : MonoBehaviour
 {
     [Header("Reference Access")]
     [SerializeField] private CinemachineVirtualCamera vCam; //Access Cinemachine Cam
-    //DO NESTED DICTIONARY!!!!
-    /*Dictionary<string, Vector3, Vector3, Vector3> camView = new Dictionary<string, Vector3, Vector3, Vector3>(){ //Cam Type, Default Offset, WS Movement, AD Movement
-        {"Roam", new Vector3(), transform.right, transform.forward},
-        {"Top", new Vector3(), transform.right, transform.forward},
-        {"Bottom", new Vector3(), transform.right, transform.forward},
-        {"Back", new Vector3(), transform.right, transform.forward},
-        {"Front", new Vector3(), transform.right, transform.forward},
-        {"Left", new Vector3(), transform.right, transform.forward},
-        {"Right", new Vector3(), transform.right, transform.forward},
-    };*/
+    Vector3[,] camSettings = new Vector3[,]{};
     public enum CamView{ //Cam Viewing Mode
         //Mode Options
         Roam,
@@ -47,6 +38,16 @@ public class CamScript : MonoBehaviour
     [SerializeField] private float zoomSpd = 0; //Default Speed of Zoom (0-100) ; 0 (3) , 1 (6)
 
     void Start(){ //INITIALIZATION
+        Vector3[,] camSettings = {
+            {new Vector3(0,10,-10), transform.right, transform.forward}, //Roam
+            {new Vector3(0,10,0), transform.right, transform.forward}, //Top
+            {new Vector3(0,-10,0), transform.right, -transform.forward}, //Bottom
+            {new Vector3(0,0,-10), transform.right, transform.up}, //Back
+            {new Vector3(0,0,10), -transform.right, transform.up}, //Front
+            {new Vector3(-10,0,0), transform.forward, transform.up}, //Left
+            {new Vector3(10,0,0), -transform.forward, transform.up}, //Right
+        };
+
         //MANIPUABLE VARIABLE LIMITS
         camMoveSpd = Mathf.Clamp(camMoveSpd, 0, 100); //Bounds Move Speed from 0 to 1
         camRotSpd = Mathf.Clamp(camRotSpd, 0, 100); //Bounds Turn Speed from 0 to 1
@@ -95,7 +96,7 @@ public class CamScript : MonoBehaviour
         
     }
     void camFixed(){ //SIDE CAMERAS
-        if(currentCam == (CamView)1){ //Top View
+        /*if(currentCam == (CamView)1){ //Top View
             vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,0); //Set Cam Offset
             keyMoveScroll(transform.right,transform.forward);
         } 
@@ -118,6 +119,10 @@ public class CamScript : MonoBehaviour
         else if (currentCam == (CamView)6){ //Right View
             vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(10,0,0); //Set Cam Offset
             keyMoveScroll(transform.forward,transform.up);
+        }*/
+        if((int)currentCam > 0){
+            vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = camSettings[(int)currentCam,0];
+            keyMoveScroll(camSettings[(int)currentCam,1], camSettings[(int)currentCam,2]);
         }
     }
     void camBounds(){ //CAMERA RANGE CONSTRAINTS
@@ -130,6 +135,7 @@ public class CamScript : MonoBehaviour
         if( Input.GetKeyDown(KeyCode.M) ) {
             if( (int)currentCam < 6){
                 currentCam ++;
+                Debug.Log((int)currentCam);
             } 
             else{ 
                 vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,-10); //Set Cam Offset
