@@ -6,6 +6,7 @@ using System;
 
 public class CamScript : MonoBehaviour
 {
+    #region Variables
     [Header("Reference Access")]
     [SerializeField] private CinemachineVirtualCamera vCam; //Access Cinemachine Cam
     Vector3[,] camSettings = new Vector3[7,3];
@@ -30,6 +31,13 @@ public class CamScript : MonoBehaviour
     [SerializeField] private float zoomMax = 20; //Zoom In Max
     [SerializeField] private float zoomSpd = 0; //Default Speed of Zoom (0-100) ; 0 (3) , 1 (6)
 
+    [Header("Camera")]
+    [SerializeField] private float camXBound = 50; //Total Boundry of Camera Movement on X-Axis
+    [SerializeField] private float camYBound = 25; //Total Boundry of Camera Movement on Y-Axis
+    [SerializeField] private float camZBound = 50; //Total Boundry of Camera Movement on Z-Axis
+    #endregion
+    #region Initial Methods
+    
     void Start(){ //INITIALIZATION
         //CAMERA POSITIONAL / MOVEMENT SETTINGS
         camSettings = new Vector3[7,3]{ // (Start Vector, Transform Vector, Transform Vector)
@@ -52,6 +60,8 @@ public class CamScript : MonoBehaviour
         currentCam = 0;
         vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = camSettings[(int)currentCam,0]; //Start
     }
+    #endregion
+    #region Runtime Methods
     void keyMoveScroll(Vector3 ws,Vector3 ad){ //KEY MOVEMENT AND EDGE SCROLLING (HORIZONTAL DIR, VERTICAL DIR)        
         //KEY-BASED MOVEMENT
         Vector3 camDir = new Vector3(); //Camera Position Movement Vector
@@ -95,10 +105,13 @@ public class CamScript : MonoBehaviour
         }
     }
     void camBounds(){ //CAMERA RANGE CONSTRAINTS
-        //transform.position.x = Mathf.Clamp(transform.position.x,-50,50);
-        //transform.position.y = Mathf.Clamp(transform.position.y,-10,10);
-        //transform.position.z = Mathf.Clamp(transform.position.z,-50,50);
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(transform.position.x,-camXBound/2,camXBound/2);
+        pos.y = Mathf.Clamp(transform.position.y,-camYBound/2,camYBound/2);
+        pos.z = Mathf.Clamp(transform.position.z,-camZBound/2,camZBound/2);
+        transform.position = pos;
     }
+    #endregion
     void Update(){ //UPDATE EVERY FRAME
         camSwap();
         camMode();
