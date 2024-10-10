@@ -32,15 +32,15 @@ public class CamScript : MonoBehaviour
     [SerializeField] private float zoomSpd = 0; //Default Speed of Zoom (0-100) ; 0 (3) , 1 (6)
 
     [Header("Camera")]
-    [SerializeField] private float camXBound = 50; //Total Boundry of Camera Movement on X-Axis
-    [SerializeField] private float camYBound = 25; //Total Boundry of Camera Movement on Y-Axis
-    [SerializeField] private float camZBound = 50; //Total Boundry of Camera Movement on Z-Axis
+    [SerializeField] private float camXBound = 50; //Total Boundary of Camera Movement on X-Axis
+    [SerializeField] private float camYBound = 25; //Total Boundary of Camera Movement on Y-Axis
+    [SerializeField] private float camZBound = 50; //Total Boundary of Camera Movement on Z-Axis
     #endregion
     #region Initial Methods
     
     void Start(){ //INITIALIZATION
         //CAMERA POSITIONAL / MOVEMENT SETTINGS
-        camSettings = new Vector3[7,3]{ // (Start Vector, Transform Vector, Transform Vector)
+        camSettings = new Vector3[7,3]{ // (Start Vector, Transform Vector (AD), Transform Vector (WS))
             {new Vector3(0,10,-10), transform.right, transform.forward}, //Roam
             {new Vector3(0,10,0), transform.right, transform.forward}, //Top
             {new Vector3(0,-10,0), transform.right, -transform.forward}, //Bottom
@@ -50,7 +50,7 @@ public class CamScript : MonoBehaviour
             {new Vector3(10,0,0), transform.forward, transform.up}, //Right
         };
 
-        //MANIPUABLE VARIABLE LIMITS
+        //MANIPULABLE VARIABLE LIMITS
         camMoveSpd = Mathf.Clamp(camMoveSpd, 0, 100); //Bounds Move Speed from 0 to 1
         camRotSpd = Mathf.Clamp(camRotSpd, 0, 100); //Bounds Turn Speed from 0 to 1
         edgeScrollSpd = Mathf.Clamp(edgeScrollSpd, 0, 100); //Bounds Edge Scroll Speed from 0 to 1
@@ -58,22 +58,26 @@ public class CamScript : MonoBehaviour
 
         //STARTING SETTING
         currentCam = 0;
-        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = camSettings[(int)currentCam,0]; //Start
+        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = camSettings[(int)currentCam,0]; //Starting Camera Position
     }
     #endregion
     #region Runtime Methods
-    void keyMoveScroll(Vector3 ws,Vector3 ad){ //KEY MOVEMENT AND EDGE SCROLLING (HORIZONTAL DIR, VERTICAL DIR)        
+    void resetPositionRotation(){
+        transform.position = new Vector3();
+        transform.rotation = new Quaternion();
+    }
+    void keyMoveScroll(Vector3 ad,Vector3 ws){ //KEY MOVEMENT AND EDGE SCROLLING (HORIZONTAL DIR, VERTICAL DIR)        
         //KEY-BASED MOVEMENT
         Vector3 camDir = new Vector3(); //Camera Position Movement Vector
-        camDir += Input.GetAxis("HorMove") * ws; //WS Movement
-        camDir += Input.GetAxis("VerMove") * ad; //AD Movement
+        camDir += Input.GetAxis("HorMove") * ad; //AD Movement
+        camDir += Input.GetAxis("VerMove") * ws; //WS Movement
 
         //EDGE SCROLLING
         Vector3 mPos = new Vector3(); mPos = Input.mousePosition; //Mouse Position Tracker
-        if(mPos.x < scrollBounds) camDir -= (.3f + edgeScrollSpd / 100 * .5f) * ws; //Left Bound Movement
-        if(mPos.x > Screen.width - scrollBounds) camDir += (.3f + edgeScrollSpd / 100 * .5f) * ws; //Right Bound Movement
-        if(mPos.y < scrollBounds) camDir -= (.3f + edgeScrollSpd / 100 * .5f) * ad; //Bottom Bound Movement
-        if(mPos.y > Screen.height - scrollBounds) camDir += (.3f + edgeScrollSpd / 100 * .5f) * ad; //Top Bound Movement
+        if(mPos.x < scrollBounds) camDir -= (.3f + edgeScrollSpd / 100 * .5f) * ad; //Left Bound Movement
+        if(mPos.x > Screen.width - scrollBounds) camDir += (.3f + edgeScrollSpd / 100 * .5f) * ad; //Right Bound Movement
+        if(mPos.y < scrollBounds) camDir -= (.3f + edgeScrollSpd / 100 * .5f) * ws; //Bottom Bound Movement
+        if(mPos.y > Screen.height - scrollBounds) camDir += (.3f + edgeScrollSpd / 100 * .5f) * ws; //Top Bound Movement
 
         //CAM POSITIONAL MOVEMENT CHANGES
         transform.position += camDir * (10 + camMoveSpd / 100 * 30) * Time.deltaTime; //Position Movement (WASD)
@@ -86,13 +90,16 @@ public class CamScript : MonoBehaviour
         zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax); //Keep Zoom In Range
         vCam.m_Lens.FieldOfView = zoomCurrent; //Update 
     }
+    void directionUpdate(){
+      //  
+    }
     void camMode(){ //CAMERA CONTROLS
         keyMoveScroll(camSettings[(int)currentCam,1], camSettings[(int)currentCam,2]); //Cam Movement
         if((int)currentCam == 0){ //Roam Camera Additional Settigs
             transform.eulerAngles += new Vector3(0, Input.GetAxis("Turn") * (.2f + camRotSpd / 100 * .3f), 0); //Turn Movement (QE)
             if( Input.GetKeyDown(KeyCode.R) ){ //Flip Cam
                 vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y *= -1; //Flip Cam View (Under/Over)
-                keyMoveScroll(transform.right,-transform.forward); //INverted Vert Key Movement
+                //keyMoveScroll(transform.right,-transform.forward); //Inverted Vert Key Movement
             }
         }
     }
@@ -101,7 +108,7 @@ public class CamScript : MonoBehaviour
             if( (int)currentCam < 6) currentCam ++; //Shift to Next Camera
             else currentCam = 0; //Reset to First Camera
             vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = camSettings[(int)currentCam,0]; //Initial Cam Offset 
-            transform.position = new Vector3(); //Center to Origin
+            resetPositionRotation();
         }
     }
     void camBounds(){ //CAMERA RANGE CONSTRAINTS
@@ -113,6 +120,7 @@ public class CamScript : MonoBehaviour
     }
     #endregion
     void Update(){ //UPDATE EVERY FRAME
+        directionUpdate();
         camSwap();
         camMode();
         camBounds();
