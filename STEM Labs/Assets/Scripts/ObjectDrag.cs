@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ObjectDrag : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private Vector3 offset;
+
+    private void OnMouseDown(){
+        offset = transform.position - BuildSystem.mousePosition();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnMouseDrag(){
+        Vector3 pos = BuildSystem.mousePosition() + offset;
+        transform.position = BuildSystem.current.snapCoordToGrid(pos);
     }
+
 }

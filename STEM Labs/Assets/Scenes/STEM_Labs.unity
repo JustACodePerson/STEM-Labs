@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70775138}
   - component: {fileID: 70775137}
+  - component: {fileID: 70775139}
   m_Layer: 0
   m_Name: BuildGrid
   m_TagString: Untagged
@@ -167,6 +168,22 @@ Transform:
   - {fileID: 1302139374}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &70775139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70775136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988e614de86176b40a2a455b63a4dddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridLayout: {fileID: 0}
+  mainTilemap: {fileID: 0}
+  whiteTile: {fileID: 0}
+  prefab1: {fileID: 0}
 --- !u!1 &476151148
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647966190}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000026588947, y: -0.0000027239105, z: 0.000002723912, w: 1}
+  m_LocalRotation: {x: 0.00000004192254, y: -0.000000042146844, z: -8.6264255e-16, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -366,8 +383,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190238420}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3826837, y: 0.000003639974, z: -0.0000015077279, w: 0.92387944}
-  m_LocalPosition: {x: 0, y: 10, z: -10}
+  m_LocalRotation: {x: -0.000000029802322, y: 0.7071069, z: 0.000000029802326, w: 0.70710677}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -728,7 +745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 10, z: -10}
+  m_FollowOffset: {x: -10, y: 0, z: 0}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0

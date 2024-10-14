@@ -39,17 +39,6 @@ public class CamScript : MonoBehaviour
     #region Initial Methods
     
     void Start(){ //INITIALIZATION
-        //CAMERA POSITIONAL / MOVEMENT SETTINGS
-        camSettings = new Vector3[7,3]{ // (Start Vector, Transform Vector (AD), Transform Vector (WS))
-            {new Vector3(0,10,-10), transform.right, transform.forward}, //Roam
-            {new Vector3(0,10,0), transform.right, transform.forward}, //Top
-            {new Vector3(0,-10,0), transform.right, -transform.forward}, //Bottom
-            {new Vector3(0,0,-10), transform.right, transform.up}, //Back
-            {new Vector3(0,0,10), -transform.right, transform.up}, //Front
-            {new Vector3(-10,0,0), -transform.forward, transform.up}, //Left
-            {new Vector3(10,0,0), transform.forward, transform.up}, //Right
-        };
-
         //MANIPULABLE VARIABLE LIMITS
         camMoveSpd = Mathf.Clamp(camMoveSpd, 0, 100); //Bounds Move Speed from 0 to 1
         camRotSpd = Mathf.Clamp(camRotSpd, 0, 100); //Bounds Turn Speed from 0 to 1
@@ -58,13 +47,13 @@ public class CamScript : MonoBehaviour
 
         //STARTING SETTING
         currentCam = 0;
-        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = camSettings[(int)currentCam,0]; //Starting Camera Position
+        vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset = new Vector3(0,10,-10); //Starting Camera Position
     }
     #endregion
     #region Runtime Methods
     void resetPositionRotation(){
-        transform.position = new Vector3();
-        transform.rotation = new Quaternion();
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
     void keyMoveScroll(Vector3 ad,Vector3 ws){ //KEY MOVEMENT AND EDGE SCROLLING (HORIZONTAL DIR, VERTICAL DIR)        
         //KEY-BASED MOVEMENT
@@ -90,8 +79,16 @@ public class CamScript : MonoBehaviour
         zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax); //Keep Zoom In Range
         vCam.m_Lens.FieldOfView = zoomCurrent; //Update 
     }
-    void directionUpdate(){
-      //  
+    void directionUpdate(){ //CAMERA POSITIONAL / MOVEMENT SETTINGS
+        camSettings = new Vector3[7,3]{ // (Start Vector, Transform Vector (AD), Transform Vector (WS))
+            {new Vector3(0,10,-10), transform.right, transform.forward}, //Roam
+            {new Vector3(0,10,0), transform.right, transform.forward}, //Top
+            {new Vector3(0,-10,0), transform.right, -transform.forward}, //Bottom
+            {new Vector3(0,0,-10), transform.right, transform.up}, //Back
+            {new Vector3(0,0,10), -transform.right, transform.up}, //Front
+            {new Vector3(-10,0,0), -transform.forward, transform.up}, //Left
+            {new Vector3(10,0,0), transform.forward, transform.up}, //Right
+        };  
     }
     void camMode(){ //CAMERA CONTROLS
         keyMoveScroll(camSettings[(int)currentCam,1], camSettings[(int)currentCam,2]); //Cam Movement

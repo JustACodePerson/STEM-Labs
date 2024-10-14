@@ -6,16 +6,48 @@ using UnityEngine.Tilemaps;
 public class BuildSystem : MonoBehaviour
 {
     //NOTE: Export CAD Files as Fine OBJs, Unzip (Extract Files), and Drag n' Drop in Unity
+    
     public static BuildSystem current;
     public GridLayout gridLayout;
     private Grid grid;
     [SerializeField] Tilemap mainTilemap;
     [SerializeField] TileBase whiteTile;
 
+    public GameObject prefab1;
+
     PlaceableObject objectToPlace;
 
     private void Awake(){
         current = this;
         grid = gridLayout.gameObject.GetComponent<Grid>();
+    }
+
+    private void Update(){
+        if( Input.GetKeyDown(KeyCode.P) ){
+            InitObject(prefab1);
+        }
+    }
+
+    public static Vector3 mousePosition(){
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out RaycastHit raycastHit)){
+            return raycastHit.point;
+        }
+        else{
+            return Vector3.zero;
+        }
+    }
+
+    public Vector3 snapCoordToGrid(Vector3 pos){
+        Vector3Int cellPos = gridLayout.WorldToCell(pos);
+        pos = grid.GetCellCenterWorld(cellPos);
+        return pos;
+    }
+
+    public void InitObject(GameObject prefab){
+        Vector3 position = snapCoordToGrid(Vector3.zero);
+        GameObject obj = Instantiate(prefab, position, Quaternion.identity);
+        objectToPlace = obj.GetComponent<PlaceableObject>();
+        obj.AddComponent<ObjectDrag>();
     }
 }
