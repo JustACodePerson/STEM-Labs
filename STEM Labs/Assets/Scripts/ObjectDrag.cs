@@ -14,5 +14,4 @@ public class ObjectDrag : MonoBehaviour
         Vector3 pos = BuildSystem.mousePosition() + offset;
         transform.position = BuildSystem.current.snapCoordToGrid(pos);
     }
-
 }

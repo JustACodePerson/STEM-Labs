@@ -11,11 +11,7 @@ public class BuildSystem : MonoBehaviour
     public GridLayout gridLayout;
     private Grid grid;
     [SerializeField] Tilemap mainTilemap;
-    [SerializeField] TileBase whiteTile;
-
     public GameObject prefab1;
-
-    PlaceableObject objectToPlace;
 
     private void Awake(){
         current = this;
@@ -47,7 +43,6 @@ public class BuildSystem : MonoBehaviour
     public void InitObject(GameObject prefab){
         Vector3 position = snapCoordToGrid(Vector3.zero);
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
-        objectToPlace = obj.GetComponent<PlaceableObject>();
         obj.AddComponent<ObjectDrag>();
     }
 }
