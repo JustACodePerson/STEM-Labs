@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ObjectFollow : MonoBehaviour
 {
-    public bool objectIsFollowing;
-
-    private void OnAwake(){
-        //Make Cube Semi-Transparent
+    private MeshRenderer mRend;
+    private void Awake(){
+        mRend = this.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
+        mRend.material = Resources.Load<Material>("Material/Mat_Active");
     }
     private void OnMouseDown(){
-        //Make Cube Solid Color
+        mRend.material = Resources.Load<Material>("Material/Mat_Inactive");
         Destroy(this);
     }
 

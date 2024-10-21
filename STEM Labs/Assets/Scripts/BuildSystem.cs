@@ -6,12 +6,11 @@ using UnityEngine.Tilemaps;
 public class BuildSystem : MonoBehaviour
 {
     //NOTE: Export CAD Files as Fine OBJs, Unzip (Extract Files), and Drag n' Drop in Unity
-    
     public static BuildSystem current;
-    public GridLayout gridLayout;
-    private Grid grid;
-    [SerializeField] Tilemap mainTilemap;
-    public GameObject prefab1;
+    public GridLayout gridLayout; //Access Own-Script
+    private Grid grid; //Acess Grid
+    public Transform parentObject; //Access Object the Prefabs Will Become Children Of
+    public GameObject prefabToInst; //Access Prefab that Will Be Instantiated
 
     private void Awake(){
         current = this;
@@ -20,7 +19,7 @@ public class BuildSystem : MonoBehaviour
 
     private void Update(){
         if( Input.GetKeyDown(KeyCode.P) ){
-            InitObject(prefab1);
+            InstObject(prefabToInst);
         }
     }
 
@@ -40,9 +39,9 @@ public class BuildSystem : MonoBehaviour
         return pos;
     }
 
-    public void InitObject(GameObject prefab){
+    public void InstObject(GameObject prefab){
         Vector3 position = snapCoordToGrid(Vector3.zero);
-        GameObject obj = Instantiate(prefab, position, Quaternion.identity);
+        GameObject obj = Instantiate(prefab, position, Quaternion.identity, parentObject);
         obj.AddComponent<ObjectFollow>();
     }
 }
