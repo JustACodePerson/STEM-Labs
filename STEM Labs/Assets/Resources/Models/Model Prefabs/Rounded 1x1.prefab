@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rounded 1x1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3b3babf44b415864089a437f077b1e8b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7026526859070692007, guid: 3b3babf44b415864089a437f077b1e8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -91,6 +95,10 @@ PrefabInstance:
     - target: {fileID: 7026526859070692007, guid: 3b3babf44b415864089a437f077b1e8b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252026912352493706, guid: 3b3babf44b415864089a437f077b1e8b, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

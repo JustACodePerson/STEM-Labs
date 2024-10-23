@@ -7,8 +7,9 @@ public class BuildSystem : MonoBehaviour
 {
     //NOTE: Export CAD Files as Fine OBJs, Unzip (Extract Files), and Drag n' Drop in Unity
     public static BuildSystem current;
-    public GridLayout gridLayout; //Access Own-Script
     private Grid grid; //Acess Grid
+    public GridLayout gridLayout; //Access Own-Script
+    public bool gridToggle = true;
     public Transform parentObject; //Access Object the Prefabs Will Become Children Of
     public GameObject prefabToInst; //Access Prefab that Will Be Instantiated
 
@@ -23,10 +24,20 @@ public class BuildSystem : MonoBehaviour
         }
     }
 
-    public static Vector3 mousePosition(){
+    public static Vector3 mousePosGrid(){
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out RaycastHit raycastHit)){
-            return raycastHit.point;
+        if(Physics.Raycast(ray, out RaycastHit rcHit, LayerMask.GetMask("Grid"))){
+            return rcHit.point;
+        }
+        else{
+            return Vector3.zero;
+        }
+    }
+
+    public static Vector3 mousePosObj(){
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out RaycastHit rcHit, LayerMask.GetMask("Objetcs"))){
+            return rcHit.transform.position+rcHit.normal;
         }
         else{
             return Vector3.zero;
@@ -38,6 +49,11 @@ public class BuildSystem : MonoBehaviour
         pos = grid.GetCellCenterWorld(cellPos);
         return pos;
     }
+
+    /*public Vector3 snapCoordToObjects(Vector3 pos){
+        Vector3Int objPos = gridLayout.WorldToCell(pos);
+        return pos;
+    }*/
 
     public void InstObject(GameObject prefab){
         Vector3 position = snapCoordToGrid(Vector3.zero);

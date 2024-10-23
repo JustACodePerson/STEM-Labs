@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wedge 1x1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f022e0d9aa703654ca38cdb4eda9a171, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7026526859070692007, guid: f022e0d9aa703654ca38cdb4eda9a171, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -83,6 +87,10 @@ PrefabInstance:
     - target: {fileID: 7026526859070692007, guid: f022e0d9aa703654ca38cdb4eda9a171, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252026912352493706, guid: f022e0d9aa703654ca38cdb4eda9a171, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

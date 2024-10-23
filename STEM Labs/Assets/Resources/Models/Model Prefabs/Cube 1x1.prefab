@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube 1x1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e6685488b593e3c499e23b4f674c9ae6, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7026526859070692007, guid: e6685488b593e3c499e23b4f674c9ae6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.5
@@ -71,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 7026526859070692007, guid: e6685488b593e3c499e23b4f674c9ae6, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7252026912352493706, guid: e6685488b593e3c499e23b4f674c9ae6, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

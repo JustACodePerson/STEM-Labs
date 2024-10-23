@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridLayout: {fileID: 70775137}
+  gridToggle: 1
   parentObject: {fileID: 966796346}
   prefabToInst: {fileID: 2303576224918737155, guid: 83eeea85a90eb5748b0ad4d9fb48584a, type: 3}
 --- !u!1 &476151148
@@ -321,7 +322,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 476151150}
   m_Follow: {fileID: 476151150}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 40
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -462,7 +463,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -860,7 +861,7 @@ GameObject:
   - component: {fileID: 1330588341}
   - component: {fileID: 1330588340}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: GridFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
