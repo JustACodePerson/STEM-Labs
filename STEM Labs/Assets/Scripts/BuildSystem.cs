@@ -20,7 +20,7 @@ public class BuildSystem : MonoBehaviour
 
     private void Update(){
         if( Input.GetKeyDown(KeyCode.P) ){
-            InstObject(prefabToInst);
+            InstObject();
         }
     }
 
@@ -55,9 +55,9 @@ public class BuildSystem : MonoBehaviour
         return pos;
     }*/
 
-    public void InstObject(GameObject prefab){
+    public void InstObject(){
         Vector3 position = snapCoordToGrid(Vector3.zero);
-        GameObject obj = Instantiate(prefab, position, Quaternion.identity, parentObject);
+        GameObject obj = Instantiate(prefabToInst, position, Quaternion.identity, parentObject);
         obj.AddComponent<ObjectFollow>();
     }
 }
