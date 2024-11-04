@@ -16,6 +16,7 @@ public class CamScript : MonoBehaviour
 
     [Header("Camera Mode")]
     public CamView currentCam = (CamView)0; //Default Cam View
+    [SerializeField] private float flipValue = 1; //Is the Camera Flipped or Not
     
     [Header("Directional Movement")]
     [SerializeField] private float camMoveSpd = 66f; //Default Camera Movement Speed (0-100) ; 0 (10) , 1 (40)
@@ -91,14 +92,20 @@ public class CamScript : MonoBehaviour
         };  
     }
     void camMode(){ //CAMERA CONTROLS
-        keyMoveScroll(camSettings[(int)currentCam,1], camSettings[(int)currentCam,2]); //Cam Movement
         if((int)currentCam == 0){ //Roam Camera Additional Settigs
             transform.eulerAngles += new Vector3(0, Input.GetAxis("Turn") * (.2f + camRotSpd / 100 * .3f), 0); //Turn Movement (QE)
             if( Input.GetKeyDown(KeyCode.R) ){ //Flip Cam
                 vCam.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset.y *= -1; //Flip Cam View (Under/Over)
-                //keyMoveScroll(transform.right,-transform.forward); //Inverted Vert Key Movement
-            }
+                flipValue *= -1; //Inverse Up/Down Movement
+            } 
         }
+        else{ //Non-Roam Camera Default
+            flipValue = 1; //Camera Remains Unflipped (1)
+        }
+        if(!Input.GetKey(KeyCode.LeftShift)){ //If Left Shift Isn't Active
+            keyMoveScroll(camSettings[(int)currentCam,1], flipValue * camSettings[(int)currentCam,2]); //Cam Movement
+        }
+        
     }
     void camSwap(){ //CAMERA MODE SWAP
         if( Input.GetKeyDown(KeyCode.M) ) {

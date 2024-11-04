@@ -58,6 +58,6 @@ public class BuildSystem : MonoBehaviour
     public void InstObject(){
         Vector3 position = snapCoordToGrid(Vector3.zero);
         GameObject obj = Instantiate(prefabToInst, position, Quaternion.identity, parentObject);
-        obj.AddComponent<ObjectFollow>();
+        obj.AddComponent<ObjectActive>();
     }
 }
