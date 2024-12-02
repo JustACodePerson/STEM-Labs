@@ -18,12 +18,6 @@ public class BuildSystem : MonoBehaviour
         grid = gridLayout.gameObject.GetComponent<Grid>();
     }
 
-    private void Update(){
-        if( Input.GetKeyDown(KeyCode.P) ){
-            InstObject();
-        }
-    }
-
     public static Vector3 mousePosGrid(){
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out RaycastHit rcHit, LayerMask.GetMask("Grid"))){
@@ -50,12 +44,16 @@ public class BuildSystem : MonoBehaviour
         return pos;
     }
 
+    public void changeObject(GameObject obj){
+        prefabToInst = obj;
+    }
+
     /*public Vector3 snapCoordToObjects(Vector3 pos){
         Vector3Int objPos = gridLayout.WorldToCell(pos);
         return pos;
     }*/
 
-    public void InstObject(){
+    public void cloneObject(){
         Vector3 position = snapCoordToGrid(Vector3.zero);
         GameObject obj = Instantiate(prefabToInst, position, Quaternion.identity, parentObject);
         obj.AddComponent<ObjectActive>();

@@ -36,7 +36,7 @@ public class ObjectActive : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0)){ //Left Click
             mRend.material = Resources.Load<Material>("Materials/Mat_Inactive"); //Change Object to Solid Color
-            BuildSystem.current.InstObject(); // Make New Object When First Object is Placed
+            BuildSystem.current.cloneObject(); // Make New Object When First Object is Placed
             Destroy(this); //Destroy Script
         }
         if(Input.GetMouseButtonDown(1)){ //Right Click

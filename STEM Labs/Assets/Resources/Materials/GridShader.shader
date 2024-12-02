@@ -3,7 +3,7 @@ Shader "Unlit/Grid"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        [HDR]_GridColour ("Grid Colour", Color) = (.255,.0,.0,1)
+        [HDR]_GridColor ("Grid Color", Color) = (.255,.0,.0,1)
         _GridSize ("Grid Size", Range(0.01, 1.0)) = 0.1
         _GridLineThickness ("Grid Line Thickness", Range(0.00001, 0.010)) = 0.003
         _Alpha ("Grid Transparency", Range(0, 1)) = 0.5
@@ -39,7 +39,7 @@ Shader "Unlit/Grid"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            float4 _GridColour;
+            float4 _GridColor;
             float _GridSize;
             float _GridLineThickness;
             float _Alpha;
@@ -68,9 +68,9 @@ Shader "Unlit/Grid"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                fixed4 gridColour = (_GridColour * GridTest(i.uv)) + tex2D(_MainTex, i.uv);
-                gridColour = float4(gridColour.r, gridColour.g, gridColour.b, _Alpha);
-                return float4(gridColour);
+                fixed4 gridColor = (_GridColor * GridTest(i.uv)) + tex2D(_MainTex, i.uv);
+                gridColor = float4(gridColor.r, gridColor.g, gridColor.b, _Alpha);
+                return float4(gridColor);
             }
             ENDCG
         }
