@@ -21,10 +21,10 @@ public class BuildSystem : MonoBehaviour
     public static Vector3 mousePosGrid(){
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out RaycastHit rcHit, LayerMask.GetMask("Grid"))){
-            return rcHit.point;
+            return rcHit.point; //Hold Object at Detected Position
         }
-        else{
-            return Vector3.zero;
+        else{ //If No RayCast Hit Detection
+            return new Vector3(0,100,0); //Hold Object at Position 0,100,0 - Prevents Object Flashing to Center of Screen Occasionally
         }
     }
 

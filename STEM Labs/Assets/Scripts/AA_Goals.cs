@@ -5,8 +5,8 @@ using UnityEngine;
 public class AA_Goals : MonoBehaviour
 {
     /*
-Floor Grid Pattern
-Button to Change Current Prefab to Init
+Floor Grid Pattern Transparent 
+Make Prefab Hidden Until Instantiated to Prevent Flashing.
 ...
     */
 }
