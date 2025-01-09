@@ -12,9 +12,11 @@ public class ButtonScript : MonoBehaviour
         Button btn = this.GetComponent<Button>();
 		btn.onClick.AddListener(TaskOnClick);
 
-        Texture2D tex = AssetPreview.GetAssetPreview(objectToChangeTo); //Grab Prefab Picture (Texture2D)
+        /* DOESN'T WORK IN BUILD, UTILIZES EDITOR WHICH CAN'T BE ACCESSED IN BUILT GAME
+        Texture2D tex = AssetPreview.GetAssetPreview(objectToChangeTo); //Grab Prefab Picture (Texture2D)   
         Sprite spr = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero); //Convert Picture to Sprite
         this.GetComponent<Image>().sprite = spr; //Change Button Picture to Sprite
+        */
     }
 
     void TaskOnClick(){

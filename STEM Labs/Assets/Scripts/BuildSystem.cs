@@ -18,23 +18,18 @@ public class BuildSystem : MonoBehaviour
         grid = gridLayout.gameObject.GetComponent<Grid>();
     }
 
-    public static Vector3 mousePosGrid(){
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out RaycastHit rcHit, LayerMask.GetMask("Grid"))){
-            return rcHit.point; //Hold Object at Detected Position
+    public static Vector3 mousePos(){
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //Create Line going thru Cam Center and 2D Mouse Pos on Screen
+        
+        if( Physics.Raycast( ray, out RaycastHit rcHitObj, LayerMask.GetMask("Object") ) ){ //If the Line Collides with an Object
+            //Debug.DrawRay(Vector3 start, Vector3 dir, Color.white, 1, true);
+            return rcHitObj.point;// + rcHitObj.normal; //Give Offset Position of Collided Object (Object will be Held There)
+        }
+        else if( Physics.Raycast( ray, out RaycastHit rcHitGrid, LayerMask.GetMask("Grid") ) ){ //If the Line Collides with the Grid
+            return rcHitGrid.point; //Give Collision Point Position (Object will be Held There)
         }
         else{ //If No RayCast Hit Detection
-            return new Vector3(0,100,0); //Hold Object at Position 0,100,0 - Prevents Object Flashing to Center of Screen Occasionally
-        }
-    }
-
-    public static Vector3 mousePosObj(){
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray, out RaycastHit rcHit, LayerMask.GetMask("Objetcs"))){
-            return rcHit.transform.position+rcHit.normal;
-        }
-        else{
-            return Vector3.zero;
+            return new Vector3(0, 100, 0); //Hold Object at Position 0,100,0 - Prevents Object Flashing to Center of Screen Occasionally
         }
     }
 
@@ -47,11 +42,6 @@ public class BuildSystem : MonoBehaviour
     public void changeObject(GameObject obj){
         prefabToInst = obj;
     }
-
-    /*public Vector3 snapCoordToObjects(Vector3 pos){
-        Vector3Int objPos = gridLayout.WorldToCell(pos);
-        return pos;
-    }*/
 
     public void cloneObject(){
         Vector3 position = snapCoordToGrid(Vector3.zero);

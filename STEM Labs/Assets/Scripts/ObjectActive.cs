@@ -11,6 +11,7 @@ public class ObjectActive : MonoBehaviour
         col = GetComponent<Collider>();
         tForm = this.transform.GetChild(0).gameObject.GetComponent<Transform>(); //Access Object's Position/Rotation
         mRend = this.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>(); //Access Object's Renderer
+        mRend.enabled = true;
         mRend.material = Resources.Load<Material>("Materials/Mat_Active"); //Change Object to Transparent Color
     }
 
@@ -26,21 +27,25 @@ public class ObjectActive : MonoBehaviour
 
     private void Update(){
         rotateObject();
+        Vector3 mPos = new Vector3(); mPos = Input.mousePosition;
 
-        if (BuildSystem.current.gridToggle){ //Grid Building
-            transform.position = BuildSystem.current.snapCoordToGrid(BuildSystem.mousePosGrid()); //Adjust Position to Grid
-        }
-        else{ //Non-Grid Building
-            transform.position = BuildSystem.mousePosObj(); // WIP: ADJUST POSITION RELATIVE TO OTHER PLACED BLOCKS
-        }
+        if(mPos.y > 100){ //If Mouse is Above Vertical Threshhold
+            mRend.enabled = true;
 
-        if(Input.GetMouseButtonDown(0)){ //Left Click
-            mRend.material = Resources.Load<Material>("Materials/Mat_Inactive"); //Change Object to Solid Color
-            BuildSystem.current.cloneObject(); // Make New Object When First Object is Placed
-            Destroy(this); //Destroy Script
+            if(Input.GetMouseButtonDown(0)){ //Left Click
+                mRend.material = Resources.Load<Material>("Materials/Mat_Inactive"); //Change Object to Solid Color
+                BuildSystem.current.cloneObject(); // Make New Object When First Object is Placed
+                Destroy(this); //Destroy Script
+            }
+            
+            if(Input.GetMouseButtonDown(1)){ //Right Click
+                Destroy(this.gameObject); //Destroy All
+            }
+
+            transform.position = BuildSystem.current.snapCoordToGrid(BuildSystem.mousePos()); //Adjust Position to Grid
         }
-        if(Input.GetMouseButtonDown(1)){ //Right Click
-            Destroy(this.gameObject); //Destroy All
-        } 
+        else{
+            mRend.enabled = false;
+        }
     }
 }
