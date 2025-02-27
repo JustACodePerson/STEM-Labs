@@ -183,6 +183,7 @@ MonoBehaviour:
   gridLayout: {fileID: 70775137}
   gridToggle: 1
   parentObject: {fileID: 966796346}
+  mainCam: {fileID: 1190238421}
   prefabToInst: {fileID: 3565681039305994574, guid: b85682dd1e434a54e9957205d1a21f5b, type: 3}
 --- !u!1 &347468265
 GameObject:
@@ -469,7 +470,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 476151150}
   m_Follow: {fileID: 476151150}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 64.5
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -1196,7 +1197,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 64.5
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
